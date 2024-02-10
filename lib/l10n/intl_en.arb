@@ -1,0 +1,34 @@
+{
+    "pageHomeNavTodos": "List",
+    "@pageHomeNavTodos": {
+        "description": "Navigation label for accessing the 'List' section, where members can view and manage their to-do tasks"
+    },
+    "pageHomeNavInventory": "Inventory",
+    "@pageHomeNavInventory": {
+        "description": "Navigation label for accessing the 'Inventory' section, where users can view and manage inventory items"
+    },
+    "pageHomeNavSearch": "Search",
+    "@pageHomeNavSearch": {
+        "description": "Navigation label for the search feature, allowing users to quickly find specific products"
+    },
+    "pageLogInStart": "Start",
+    "@pageLogInStart": {
+        "description": "Button text inviting members to log in and embark on their management experience"
+    },
+    "pageLogInEmail": "Email Address",
+    "@pageLogInEmail": {
+        "description": "Placeholder text indicating where members should enter their username during login"
+    },
+    "pageLogInPassword": "Password",
+    "@pageLogInPassword": {
+        "description": "Placeholder text indicating where members should enter their password during login"
+    },
+    "helloWorld": "What we truly possess is only time.",
+    "@helloWorld": {
+        "description": "The conventional newborn programmer greeting"
+    },
+    "slogan": "Making management like fish in water",
+    "@slogan": {
+        "description": "Company's slogan emphasizing effortless management"
+    }
+}

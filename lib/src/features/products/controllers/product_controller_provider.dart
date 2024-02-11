@@ -6,5 +6,6 @@ final productControllerProvider =
     StateNotifierProvider<ProductControllerNotifier, bool>((ref) {
   return ProductControllerNotifier(
     productAPI: ref.watch(productAPIProvider),
+    storageAPI: ref.watch(storageAPIProvider),
   );
 });

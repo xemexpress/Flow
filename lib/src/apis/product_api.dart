@@ -20,6 +20,7 @@ abstract class IProductAPI {
   FutureEither<Document> createProduct(Product product);
   Future<List<Document>> getProducts();
   Stream<RealtimeMessage> getLatestProducts();
+  FutureEitherVoid deleteProduct(Product product);
 }
 
 class ProductAPI implements IProductAPI {
@@ -66,6 +67,9 @@ class ProductAPI implements IProductAPI {
     return (await _db.listDocuments(
       databaseId: AppwriteConstants.databaseId,
       collectionId: AppwriteConstants.productsCollectionId,
+      queries: [
+        Query.orderDesc('createdAt'),
+      ],
     ))
         .documents;
   }
@@ -77,5 +81,33 @@ class ProductAPI implements IProductAPI {
         'databases.${AppwriteConstants.databaseId}.collections.${AppwriteConstants.productsCollectionId}.documents',
       ],
     ).stream;
+  }
+
+  @override
+  FutureEitherVoid deleteProduct(Product product) async {
+    try {
+      await _db.deleteDocument(
+        databaseId: AppwriteConstants.databaseId,
+        collectionId: AppwriteConstants.productsCollectionId,
+        documentId: product.id,
+      );
+
+      return right(null);
+    } on AppwriteException catch (e, stackTrace) {
+      return left(
+        Failure(
+          message: e.message ??
+              "Some unexpected error occurred when creating product",
+          stackTrace: stackTrace,
+        ),
+      );
+    } catch (e, stackTrace) {
+      return left(
+        Failure(
+          message: e.toString(),
+          stackTrace: stackTrace,
+        ),
+      );
+    }
   }
 }

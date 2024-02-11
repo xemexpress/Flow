@@ -32,7 +32,7 @@ class Product {
     String? name,
     String? barcode,
     int? quantity,
-    List<String>? staffInCharge,
+    List<String>? followers,
     List<String>? imageLinks,
     List<String>? patches,
     List<String>? tags,
@@ -45,7 +45,7 @@ class Product {
       name: name ?? this.name,
       barcode: barcode ?? this.barcode,
       quantity: quantity ?? this.quantity,
-      followers: staffInCharge ?? this.followers,
+      followers: followers ?? this.followers,
       imageLinks: imageLinks ?? this.imageLinks,
       patches: patches ?? this.patches,
       tags: tags ?? this.tags,
@@ -60,7 +60,7 @@ class Product {
       'name': name,
       'barcode': barcode,
       'quantity': quantity,
-      'staffInCharge': followers,
+      'followers': followers,
       'imageLinks': imageLinks,
       'patches': patches,
       'tags': tags,
@@ -88,7 +88,7 @@ class Product {
 
   @override
   String toString() {
-    return 'ProductModel(id: $id, name: $name, barcode: $barcode, quantity: $quantity, staffInCharge: $followers, imageLinks: $imageLinks, patches: $patches, tags: $tags, remarks: $remarks, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'ProductModel(id: $id, name: $name, barcode: $barcode, quantity: $quantity, followers: $followers, imageLinks: $imageLinks, patches: $patches, tags: $tags, remarks: $remarks, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override

@@ -16,20 +16,22 @@ class MyProductsScreen extends ConsumerWidget {
           data: (products) {
             return ref.watch(getLatestProductsProvider).when(
               data: (data) {
-                for (var event in data.events) {
-                  print(event);
-                }
-
                 if (data.events.contains(
+                  'databases.*.collections.${AppwriteConstants.productsCollectionId}.documents.*.create',
+                )) {
+                  final createdProduct = Product.fromMap(data.payload);
+
+                  if (!products.contains(createdProduct)) {
+                    products.insert(0, createdProduct);
+                  }
+                } else if (data.events.contains(
                   'databases.*.collections.${AppwriteConstants.productsCollectionId}.documents.*.update',
                 )) {
-                  print('Updated!');
-
                   final updatedProduct = Product.fromMap(data.payload);
-                  updateProductInList(
-                    updatedProduct,
-                    products,
-                  );
+
+                  updateProductInList(updatedProduct, products);
+                } else if (data.events.contains('delete')) {
+                  print('delete');
                 }
 
                 return ListView.builder(
@@ -45,7 +47,8 @@ class MyProductsScreen extends ConsumerWidget {
                 );
               },
               error: (error, stackTrace) {
-                print(stackTrace.toString());
+                print(stackTrace);
+
                 return ErrorText(
                   errorText: error.toString(),
                 );
@@ -55,7 +58,10 @@ class MyProductsScreen extends ConsumerWidget {
                   itemBuilder: (context, index) {
                     final product = products[index];
 
-                    return ProductCard(product: product);
+                    return Container(
+                      margin: const EdgeInsets.fromLTRB(10, 15, 10, 0),
+                      child: ProductCard(product: product),
+                    );
                   },
                   itemCount: products.length,
                 );
@@ -63,7 +69,6 @@ class MyProductsScreen extends ConsumerWidget {
             );
           },
           error: (error, stackTrace) {
-            print(2);
             return ErrorText(
               errorText: error.toString(),
             );

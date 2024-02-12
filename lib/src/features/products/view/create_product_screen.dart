@@ -1,14 +1,13 @@
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flow/src/core/utils/pick_images.dart';
+import 'package:flow/src/common/common.dart';
+import 'package:flow/src/core/core.dart';
 import 'package:flow/src/features/products/controllers/controllers.dart';
 import 'package:flow/src/features/products/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:textfield_tags/textfield_tags.dart';
-
-import '../../../common/common.dart';
 
 class CreateProductScreen extends ConsumerStatefulWidget {
   static route() => MaterialPageRoute(
@@ -48,6 +47,7 @@ class _CreateProductScreenState extends ConsumerState<CreateProductScreen> {
 
   void onTakePhoto() async {
     final photo = await takePhoto();
+
     if (photo != null) {
       setState(() {
         images = images.isEmpty ? [photo] : images + [photo];
@@ -57,6 +57,7 @@ class _CreateProductScreenState extends ConsumerState<CreateProductScreen> {
 
   void onPickImages() async {
     final pickedImages = await pickImages();
+
     for (var image in pickedImages) {
       if (!images.contains(image)) {
         images.add(image);
@@ -93,6 +94,10 @@ class _CreateProductScreenState extends ConsumerState<CreateProductScreen> {
     _quantityController.clear();
     _tagsController.clearTags();
     _remarksController.clear();
+
+    setState(() {
+      images = [];
+    });
   }
 
   void onExitCreateProductScreen() {
@@ -190,31 +195,44 @@ class _CreateProductScreenState extends ConsumerState<CreateProductScreen> {
                   onUpdateWidget: onUpdateWidget,
                   maxLines: 3,
                 ),
-                images.isNotEmpty
-                    ? CarouselSlider(
-                        items: images
-                            .map(
-                              (e) => Container(
-                                margin: const EdgeInsets.symmetric(
-                                  vertical: 20,
-                                  horizontal: 10,
+                Container(
+                  margin: const EdgeInsets.only(
+                    top: 15,
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  // decoration: BoxDecoration(color: Colors.red),
+                  child: images.isNotEmpty
+                      ? CarouselSlider(
+                          items: images
+                              .map(
+                                (e) => Container(
+                                  // margin: const EdgeInsets.symmetric(
+                                  //   vertical: 20,
+                                  //   horizontal: 10,
+                                  // ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 2,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .tertiary
+                                          .withOpacity(.5),
+                                    ),
+                                  ),
+                                  child: Image.file(
+                                    e,
+                                    fit: BoxFit.fitWidth,
+                                  ),
                                 ),
-                                child: Image.file(
-                                  e,
-                                  fit: BoxFit.fitWidth,
-                                ),
-                              ),
-                            )
-                            .toList(),
-                        options: CarouselOptions(
-                          height: 300,
-                          enableInfiniteScroll: false,
-                        ),
-                      )
-                    : const Padding(
-                        padding: EdgeInsets.only(top: 30.0),
-                        child: Text('No image yet...'),
-                      ),
+                              )
+                              .toList(),
+                          options: CarouselOptions(
+                            height: 300,
+                            enableInfiniteScroll: false,
+                          ),
+                        )
+                      : const Text('No image yet...'),
+                ),
               ],
             ),
           ),
@@ -231,7 +249,7 @@ class _CreateProductScreenState extends ConsumerState<CreateProductScreen> {
               child: Row(
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: onTakePhoto,
                     icon: const Icon(Icons.camera_alt_outlined),
                   ),
                   IconButton(
@@ -246,7 +264,10 @@ class _CreateProductScreenState extends ConsumerState<CreateProductScreen> {
         if (isCreatingProduct)
           const Opacity(
             opacity: 0.4,
-            child: ModalBarrier(dismissible: false, color: Colors.black),
+            child: ModalBarrier(
+              dismissible: false,
+              color: Colors.black,
+            ),
           ),
         if (isCreatingProduct) const Loader(),
       ],

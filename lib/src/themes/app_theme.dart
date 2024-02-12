@@ -7,5 +7,9 @@ class AppTheme {
           seedColor: Pallete.seedColor,
           brightness: brightness,
         ),
+      ).copyWith(
+        appBarTheme: const AppBarTheme().copyWith(
+          centerTitle: true,
+        ),
       );
 }

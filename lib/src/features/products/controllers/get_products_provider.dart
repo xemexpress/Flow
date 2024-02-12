@@ -4,8 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final getProductsProvider =
     FutureProvider.autoDispose<List<Product>>((ref) async {
-  final products =
-      await ref.read(productControllerProvider.notifier).getProducts();
-
-  return products;
+  return await ref
+      .read(
+        productControllerProvider.notifier,
+      )
+      .getProducts();
 });

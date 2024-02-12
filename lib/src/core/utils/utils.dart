@@ -3,3 +3,7 @@ export './get_username_from_email.dart';
 export './update_product_in_list.dart';
 export './resize_cloudinary_image.dart';
 export './get_appwrite_image_url.dart';
+export './remove_product_in_list.dart';
+export './pick_images.dart';
+export './take_photos.dart';
+export './check_happened.dart';

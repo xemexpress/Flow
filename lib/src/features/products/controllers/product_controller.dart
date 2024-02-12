@@ -29,49 +29,52 @@ class ProductControllerNotifier extends StateNotifier<bool> {
     VoidCallback? whenCreated,
   }) async {
     state = true;
+    List<String> imageLinks = [];
 
     if (images.isNotEmpty) {
       final res = await _storageAPI.uploadImages(images);
+
       res.fold(
         (failure) {
           showSnackBar(context: context, message: failure.message);
         },
-        (imageLinks) async {
-          Product product = Product(
-            id: '', // it will be taken care in the API
-            name: name,
-            barcode: barcode,
-            quantity: quantity,
-            tags: tags,
-            remarks: remarks,
-            imageLinks: imageLinks,
-            followers: const [],
-            patches: const [],
-            createdAt: DateTime.now(),
-            updatedAt: DateTime.now(),
-          );
-
-          final res = await _productAPI.createProduct(product);
-          state = false;
-
-          res.fold(
-            (failure) {
-              showSnackBar(context: context, message: failure.message);
-            },
-            (productDocument) {
-              whenCreated?.call();
-
-              showSnackBar(
-                context: context,
-                message:
-                    '${Product.fromMap(productDocument.data).name} created successfully!',
-              );
-            },
-          );
+        (links) async {
+          imageLinks = links;
         },
       );
     }
+
+    Product product = Product(
+      id: '', // it will be taken care in the API
+      name: name,
+      barcode: barcode,
+      quantity: quantity,
+      tags: tags,
+      remarks: remarks,
+      imageLinks: imageLinks,
+      followers: const [],
+      patches: const [],
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    );
+
+    final res = await _productAPI.createProduct(product);
     state = false;
+
+    res.fold(
+      (failure) {
+        showSnackBar(context: context, message: failure.message);
+      },
+      (productDocument) {
+        whenCreated?.call();
+
+        showSnackBar(
+          context: context,
+          message:
+              'Product ${Product.fromMap(productDocument.data).name} created successfully!',
+        );
+      },
+    );
   }
 
   Future<List<Product>> getProducts() async {

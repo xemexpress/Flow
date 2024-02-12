@@ -83,12 +83,11 @@ class _LogInScreenState extends ConsumerState<LogInScreen> {
                           icon: Icons.email_outlined,
                           hintText: S.of(context).pageLogInEmail,
                           onChange: updateWidget,
+                          keyboardType: TextInputType.emailAddress,
                           currentFocusNode: _emailFocusNode,
                           nextFocusNode: _passwordFocusNode,
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        const SizedBox(height: 10),
                         AuthInput(
                           controller: _passwordController,
                           icon: Icons.key_outlined,

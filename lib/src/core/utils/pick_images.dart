@@ -12,16 +12,3 @@ Future<List<File>> pickImages() async {
       )
       .toList();
 }
-
-Future<File?> takePhoto() async {
-  final ImagePicker picker = ImagePicker();
-  final imageFile = await picker.pickImage(
-    source: ImageSource.camera,
-  );
-
-  if (imageFile != null) {
-    return File(imageFile.path);
-  }
-
-  return null;
-}

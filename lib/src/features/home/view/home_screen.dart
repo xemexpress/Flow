@@ -45,7 +45,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               alignment: Alignment.center,
               children: UIConstants.appBarTitles,
             ),
-            // centerTitle: true,
             actions: const [
               UserAvatar(),
             ],

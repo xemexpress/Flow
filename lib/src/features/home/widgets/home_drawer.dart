@@ -34,11 +34,12 @@ class HomeDrawer extends ConsumerWidget {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: NetworkImage(
-                        currentUser == null || currentUser.profilePic.isEmpty
+                        currentUser!.profilePic.isEmpty
                             ? UIConstants.iconicPictureUrl
                             : currentUser.profilePic,
                       ),
                       fit: BoxFit.cover,
+                      onError: (exception, stackTrace) => const Loader(),
                     ),
                   ),
                   child: Align(
@@ -91,7 +92,7 @@ class HomeDrawer extends ConsumerWidget {
                   icon: Icon(Icons.inventory_2_outlined),
                   label: Text('My Products'),
                 ),
-                UIConstants.drawerDivider,
+                const Divider(indent: 60),
                 ListTile(
                   leading: const Icon(Icons.logout_outlined),
                   title: const Text('Log Out'),

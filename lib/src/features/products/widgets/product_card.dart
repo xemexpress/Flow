@@ -1,5 +1,6 @@
 import 'package:flow/src/core/core.dart';
 import 'package:flow/src/features/products/controllers/controllers.dart';
+import 'package:flow/src/features/products/view/product_detail_screen.dart';
 import 'package:flow/src/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,6 +29,31 @@ class _ProductCardState extends ConsumerState<ProductCard> {
           product: widget.product,
           context: context,
         );
+  }
+
+  void switchToProductDetail(Product product) {
+    Navigator.of(context).push(ProductDetailScreen.route(product));
+  }
+
+  void showInventoryDetails() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Theme.of(context).colorScheme.background,
+          content: Container(
+            height: 120,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text('Inventory'),
+                Text('${widget.product.quantity}'),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -79,9 +105,7 @@ class _ProductCardState extends ConsumerState<ProductCard> {
             ),
             tileColor: Theme.of(context).colorScheme.background,
             splashColor: Theme.of(context).colorScheme.secondaryContainer,
-            onTap: () {
-              print('Go to detail page.');
-            },
+            onTap: () => switchToProductDetail(widget.product),
             contentPadding: const EdgeInsets.symmetric(horizontal: 10),
             leading: widget.product.imageLinks.isNotEmpty
                 ? ClipRRect(
@@ -93,6 +117,11 @@ class _ProductCardState extends ConsumerState<ProductCard> {
                           resizeCloudinaryImage(widget.product.imageLinks[0]),
                       placeholder: kTransparentImage,
                       fit: BoxFit.cover,
+                      imageErrorBuilder: (context, error, stackTrace) =>
+                          const Icon(
+                        Icons.inventory_2_outlined,
+                        size: 56,
+                      ),
                     ),
                   )
                 : const Icon(
@@ -106,10 +135,13 @@ class _ProductCardState extends ConsumerState<ProductCard> {
               style: Theme.of(context).textTheme.titleMedium,
             ),
             subtitle: Text('1234'),
-            trailing: const Icon(
-              Icons.circle,
-              color: Colors.green,
-              size: 10,
+            trailing: IconButton(
+              icon: const Icon(
+                Icons.circle,
+                color: Colors.green,
+                size: 10,
+              ),
+              onPressed: showInventoryDetails,
             ),
           ),
         ),

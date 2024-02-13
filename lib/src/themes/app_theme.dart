@@ -10,6 +10,7 @@ class AppTheme {
       ).copyWith(
         appBarTheme: const AppBarTheme().copyWith(
           centerTitle: true,
+          elevation: 1,
         ),
       );
 }

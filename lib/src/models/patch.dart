@@ -1,7 +1,7 @@
 // class Patch {
 //   String id;
 //   String productId; // Reference to the related product
-//   String location;
+//   String locationId;
 //   DateTime dateOfManufacture;
 //   int quantity;
 //   String remarks;

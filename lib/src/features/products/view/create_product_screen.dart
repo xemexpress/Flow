@@ -5,6 +5,7 @@ import 'package:flow/src/common/common.dart';
 import 'package:flow/src/core/core.dart';
 import 'package:flow/src/features/products/controllers/controllers.dart';
 import 'package:flow/src/features/products/widgets/widgets.dart';
+import 'package:flow/src/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:textfield_tags/textfield_tags.dart';
@@ -14,7 +15,12 @@ class CreateProductScreen extends ConsumerStatefulWidget {
         builder: (context) => const CreateProductScreen(),
       );
 
-  const CreateProductScreen({super.key});
+  final Product? product;
+
+  const CreateProductScreen({
+    super.key,
+    this.product,
+  });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -22,13 +28,32 @@ class CreateProductScreen extends ConsumerStatefulWidget {
 }
 
 class _CreateProductScreenState extends ConsumerState<CreateProductScreen> {
+  List<String> tags = [];
+  List<File> images = [];
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _barcodeController = TextEditingController();
   final TextEditingController _quantityController = TextEditingController();
   final TextfieldTagsController _tagsController = TextfieldTagsController();
   final TextEditingController _remarksController = TextEditingController();
 
-  List<File> images = [];
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.product != null) {
+      final product = widget.product!;
+      _nameController.text = product.name;
+      _barcodeController.text = product.barcode;
+      _quantityController.text = product.quantity as String;
+
+      for (final tag in product.tags) {
+        _tagsController.onSubmitted(tag);
+      }
+
+      _remarksController.text = product.remarks;
+    }
+  }
 
   @override
   void dispose() {
@@ -200,7 +225,6 @@ class _CreateProductScreenState extends ConsumerState<CreateProductScreen> {
                     top: 15,
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  // decoration: BoxDecoration(color: Colors.red),
                   child: images.isNotEmpty
                       ? CarouselSlider(
                           items: images

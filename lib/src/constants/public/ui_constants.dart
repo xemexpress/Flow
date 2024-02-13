@@ -16,9 +16,6 @@ class UIConstants {
     MyProductsScreen(),
   ];
 
-  static const Widget drawerDivider = Divider(indent: 60);
-  static const Widget verticalSpace = SizedBox(height: 30);
-
   // Image URLs
   static const String iconicPictureUrl =
       'https://res.cloudinary.com/unimemo-dfd94/image/upload/v1705308971/22487340_d7hjqv.jpg';

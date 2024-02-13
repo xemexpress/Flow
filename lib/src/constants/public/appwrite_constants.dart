@@ -1,9 +1,9 @@
-import 'package:flow/src/constants/constants.dart';
+// import 'package:flow/src/constants/constants.dart';
 
 class AppwriteConstants {
   // IP Address
-  // static const String endPoint = 'http://localhost:80/v1';
-  static String endPoint = IPConstants.endPoint;
+  static const String endPoint = 'http://localhost:80/v1';
+  // static String endPoint = IPConstants.endPoint;
 
   // General
   static const String projectId = '65b91426b4b2fcbfb459';

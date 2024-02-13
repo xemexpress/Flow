@@ -32,6 +32,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     ref.read(authControllerProvider.notifier).signOut(context: context);
   }
 
+  List<Widget> onSearchProduct(context, controller) {
+    return [];
+  }
+
   @override
   Widget build(BuildContext context) {
     final isAuthLoading = ref.watch(authControllerProvider);
@@ -68,9 +72,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               builder: (context, controller) {
                 return const Icon(Icons.search_outlined);
               },
-              suggestionsBuilder: (context, controller) {
-                return [];
-              },
+              suggestionsBuilder: onSearchProduct,
             ),
           ),
         ),
